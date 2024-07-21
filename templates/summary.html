@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarized Content</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            background-image: url('path_to_your_background_image.jpg'); /* Add this line */
+            background-size: cover; /* Optional: cover the entire page */
+            background-position: center; /* Optional: center the image */
+            background-attachment: fixed; /* Optional: make the background fixed */
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .summarization-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #6d23b3;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        h1 {
+            color: #6d23b3;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #6d23b3;
+            margin-top: 30px;
+        }
+        .summary {
+            margin-bottom: 30px;
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .evidence-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .evidence-list li {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #f0f0f0;
+        }
+        .evidence-list strong {
+            color: #6d23b3;
+        }
+        .evidence-list em {
+            color: #868e96;
+        }
+        .filename {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+            color: #6d23b3;
+        }
+        .accuracy {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+            color: #6d23b3;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        .dropdown {
+            position: absolute;
+            top: 20px;
+            left: 16px; /* Adjusted to move 4px to the left */
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .menu-item {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #000;
+            transition: background-color 0.3s;
+        }
+        .menu-item:hover {
+            background-color: #ddd;
+        }
+        .menu-divider {
+            border-top: 1px solid #ddd;
+            margin: 6px 4px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <!-- Dropdown menu for navigation -->
+        <div class="dropdown">
+            <button class="btn">Menu</button>
+            <div class="dropdown-content">
+                <a href="/logout" class="menu-item">Logout</a>
+                <a href="/" class="menu-item">Home</a>
+                <div class="menu-divider"></div>
+                <a href="/register" class="menu-item">Sign In</a>
+                <a href="/display_data" class="menu-item">Stored Data</a>
+            </div>
+        </div>
+
+        <h1 class="summarization-title">Summarization of File</h1>
+
+        {% for result in results %}
+        <div>
+            <h1>Summary</h1>
+            <p class="summary">{{ result.summary }}</p>
+            
+            <h2>Mentioned Sections</h2>
+            <ul>
+                {% for section in result.mentioned_sections %}
+                <li>{{ section }}</li>
+                {% endfor %}
+            </ul>
+            
+            <h2>Evidence</h2>
+            <ul class="evidence-list">
+                {% for category, details in result.evidence.items() %}
+                <li>
+                    <strong>{{ category }}</strong><br>
+                    <em>Context:</em> {{ details.context }}<br>
+                    <em>Occurrences:</em> {{ details.occurrences }}<br>
+                    <em>Relevance:</em> {{ details.relevance }}
+                </li>
+                {% endfor %}
+            </ul>
+            
+            <p class="filename">Uploaded File: {{ result.filename }}</p> <!-- Display filename -->
+
+            <!-- Display Cosine Similarity Accuracy -->
+            <div class="accuracy">
+                {% if result.cosine_similarity >= 0.8 %}
+                    <div class="alert alert-success" role="alert">
+                        The generated summary is accurate (Cosine Similarity: {{ result.cosine_similarity }})
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        The generated summary is not highly accurate (Cosine Similarity: {{ result.cosine_similarity }})
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

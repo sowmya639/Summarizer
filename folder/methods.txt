@@ -1,0 +1,639 @@
+#neuralabs:
+import time
+from transformers import BartForConditionalGeneration, BartTokenizer
+import ipywidgets as widgets
+from IPython.display import display
+from PyPDF2 import PdfReader
+import torch
+
+# Initialize BART model and tokenizer
+class NeuralAbs:
+    def __init__(self):
+        self.model_name = 'facebook/bart-large-cnn'
+        self.model = BartForConditionalGeneration.from_pretrained(self.model_name)
+        self.tokenizer = BartTokenizer.from_pretrained(self.model_name)
+
+    def summarize(self, text, max_length=150, min_length=40, do_sample=False):
+        # Tokenize the input text
+        inputs = self.tokenizer(text, return_tensors='pt', truncation=True, padding='longest', max_length=1024)
+        
+        # Generate summary
+        summary_ids = self.model.generate(
+            inputs['input_ids'], 
+            max_length=max_length, 
+            min_length=min_length, 
+            do_sample=do_sample
+        )
+        
+        # Decode the generated summary
+        summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        return summary
+
+# Dummy implementation of evaluation and evidence extraction
+def evaluate_summarization_methods(text, summary):
+    # Replace with actual evaluation logic
+    cosine_sim = 0.9
+    f1_score = 0.8
+    recall = 0.85
+    return cosine_sim, None, f1_score, recall
+
+def extract_evidence(text, client_name):
+    # Dummy implementation for evidence extraction
+    return {'evidence_type_1': {'description': 'example description', 'occurrences': 1}}
+
+def on_file_upload(change):
+    for file_info in uploader.value.values():
+        file_name = file_info['metadata']['name']
+        file_content = file_info['content']
+        
+        # Load PDF content
+        with open(file_name, 'wb') as f:
+            f.write(file_content)
+        
+        pdf_reader = PdfReader(file_name)
+        pdf_text = ""
+        for page in pdf_reader.pages:
+            pdf_text += page.extract_text()
+        
+        if pdf_text:
+            print("\nExtracted Text from PDF:")
+            print(pdf_text[:500] + "...")  # Print only the first 500 characters
+
+            # Dummy client name (you can modify this accordingly)
+            client_name = "client"
+            
+            # Extract evidence types
+            evidence = extract_evidence(pdf_text, client_name)
+            
+            # Print evidence types
+            if evidence:
+                print("\nEvidence Types:")
+                for category, details in evidence.items():
+                    print(f"{category.capitalize()}:")
+                    if 'description' in details:
+                        print(f"   Description: {details['description']} ({details['occurrences']} occurrences)")
+                    if 'context' in details:
+                        print(f"   Context: {details['context']}")
+                    if 'relevance' in details:
+                        print(f"   Relevance: {details['relevance']} to {client_name}")
+            else:
+                print("\nNo evidence types identified.")
+            
+            # NeuralAbs summarization
+            start_time = time.time()  # Start timing
+            neural_abs = NeuralAbs()
+            neural_summary = neural_abs.summarize(pdf_text)
+            neural_summary_time = time.time() - start_time  # Time taken for neural network-based summary
+            print("\nGenerated NeuralAbs Summary:")
+            print(neural_summary)
+            
+            # Evaluate neural network-based summarization
+            start_time = time.time()  # Start timing
+            cosine_sim_neural, _, f1_neural, recall_neural = evaluate_summarization_methods(pdf_text, neural_summary)
+            neural_evaluation_time = time.time() - start_time  # Time taken for neural network-based evaluation
+            print(f"\nCosine Similarity (NeuralAbs): {cosine_sim_neural:.2f}")
+            print(f"F1-score (NeuralAbs vs Baseline): {f1_neural:.2f}")
+            print(f"Recall (NeuralAbs vs Baseline): {recall_neural:.2f}")
+            
+            # Print timing information
+            print("\nTiming Information:")
+            print(f"Neural Network Summary Generation Time: {neural_summary_time:.2f} seconds")
+            print(f"Neural Network Summary Evaluation Time: {neural_evaluation_time:.2f} seconds")
+    
+    # Display file uploader widget again
+    display(uploader)
+
+# Create file uploader widget
+uploader = widgets.FileUpload(accept='.pdf', multiple=True)
+uploader.observe(on_file_upload, names='value')
+
+# Display file uploader widget
+display(uploader)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##neuralex:
+import time
+from transformers import BartForConditionalGeneration, BartTokenizer
+import ipywidgets as widgets
+from IPython.display import display
+from PyPDF2 import PdfReader
+import torch
+
+# Hypothetical NeuralEx model and tokenizer
+class NeuralEx:
+    def __init__(self):
+        self.model_name = 'facebook/bart-large-cnn'
+        self.model = BartForConditionalGeneration.from_pretrained(self.model_name)
+        self.tokenizer = BartTokenizer.from_pretrained(self.model_name)
+
+    def summarize(self, text, max_length=150, min_length=40, do_sample=False):
+        # Tokenize the input text
+        inputs = self.tokenizer(text, return_tensors='pt', truncation=True, padding='longest', max_length=1024)
+        
+        # Generate summary
+        summary_ids = self.model.generate(
+            inputs['input_ids'], 
+            max_length=max_length, 
+            min_length=min_length, 
+            do_sample=do_sample
+        )
+        
+        # Decode the generated summary
+        summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        return summary
+
+# Dummy implementation of evaluation and evidence extraction
+def evaluate_summarization_methods(text, summary):
+    # Replace with actual evaluation logic
+    cosine_sim = 0.9
+    f1_score = 0.8
+    recall = 0.85
+    return cosine_sim, None, f1_score, recall
+
+def extract_evidence(text, client_name):
+    # Dummy implementation for evidence extraction
+    return {'evidence_type_1': {'description': 'example description', 'occurrences': 1}}
+
+def on_file_upload(change):
+    for file_info in uploader.value.values():
+        file_name = file_info['metadata']['name']
+        file_content = file_info['content']
+        
+        # Load PDF content
+        with open(file_name, 'wb') as f:
+            f.write(file_content)
+        
+        pdf_reader = PdfReader(file_name)
+        pdf_text = ""
+        for page in pdf_reader.pages:
+            pdf_text += page.extract_text()
+        
+        if pdf_text:
+            print("\nExtracted Text from PDF:")
+            print(pdf_text[:500] + "...")  # Print only the first 500 characters
+
+            # Dummy client name (you can modify this accordingly)
+            client_name = "client"
+            
+            # Extract evidence types
+            evidence = extract_evidence(pdf_text, client_name)
+            
+            # Print evidence types
+            if evidence:
+                print("\nEvidence Types:")
+                for category, details in evidence.items():
+                    print(f"{category.capitalize()}:")
+                    if 'description' in details:
+                        print(f"   Description: {details['description']} ({details['occurrences']} occurrences)")
+                    if 'context' in details:
+                        print(f"   Context: {details['context']}")
+                    if 'relevance' in details:
+                        print(f"   Relevance: {details['relevance']} to {client_name}")
+            else:
+                print("\nNo evidence types identified.")
+            
+            # NeuralEx summarization
+            start_time = time.time()  # Start timing
+            neural_ex = NeuralEx()
+            neural_summary = neural_ex.summarize(pdf_text)
+            neural_summary_time = time.time() - start_time  # Time taken for neural network-based summary
+            print("\nGenerated NeuralEx Summary:")
+            print(neural_summary)
+            
+            # Evaluate neural network-based summarization
+            start_time = time.time()  # Start timing
+            cosine_sim_neural, _, f1_neural, recall_neural = evaluate_summarization_methods(pdf_text, neural_summary)
+            neural_evaluation_time = time.time() - start_time  # Time taken for neural network-based evaluation
+            print(f"\nCosine Similarity (NeuralEx): {cosine_sim_neural:.2f}")
+            print(f"F1-score (NeuralEx vs Baseline): {f1_neural:.2f}")
+            print(f"Recall (NeuralEx vs Baseline): {recall_neural:.2f}")
+            
+            # Print timing information
+            print("\nTiming Information:")
+            print(f"Neural Network Summary Generation Time: {neural_summary_time:.2f} seconds")
+            print(f"Neural Network Summary Evaluation Time: {neural_evaluation_time:.2f} seconds")
+    
+    # Display file uploader widget again
+    display(uploader)
+
+# Create file uploader widget
+uploader = widgets.FileUpload(accept='.pdf', multiple=True)
+uploader.observe(on_file_upload, names='value')
+
+# Display file uploader widget
+display(uploader)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###case summarizer:
+import time
+import ipywidgets as widgets
+from IPython.display import display
+from PyPDF2 import PdfReader
+
+# Define your CaseSummarizer class and methods here
+class CaseSummarizer:
+    def __init__(self):
+        # Initialize your summarizer here
+        pass
+    
+    def summarize(self, text):
+        # Implement your summarization logic here
+        # Dummy implementation
+        time.sleep(1)  # Simulate longer summarization time (1 second)
+        summary = "This is a dummy summary."
+        return summary
+    
+    def evaluate(self, original_text, summary):
+        # Implement your evaluation logic here
+        # Dummy implementation
+        time.sleep(0.5)  # Simulate longer evaluation time (0.5 seconds)
+        f1_score = 0.75
+        recall = 0.8
+        return f1_score, recall
+
+# Dummy implementation of evidence extraction
+def extract_evidence(text, client_name):
+    # Dummy implementation for evidence extraction
+    return {'evidence_type_1': {'description': 'example description', 'occurrences': 1}}
+
+def on_file_upload(change):
+    for file_info in uploader.value.values():
+        file_name = file_info['metadata']['name']
+        file_content = file_info['content']
+        
+        # Load PDF content
+        with open(file_name, 'wb') as f:
+            f.write(file_content)
+        
+        pdf_reader = PdfReader(file_name)
+        pdf_text = ""
+        for page in pdf_reader.pages:
+            pdf_text += page.extract_text()
+        
+        if pdf_text:
+            print("\nExtracted Text from PDF:")
+            print(pdf_text[:500] + "...")  # Print only the first 500 characters
+
+            # Dummy client name (you can modify this accordingly)
+            client_name = "client"
+            
+            # Extract evidence types
+            evidence = extract_evidence(pdf_text, client_name)
+            
+            # Print evidence types
+            if evidence:
+                print("\nEvidence Types:")
+                for category, details in evidence.items():
+                    print(f"{category.capitalize()}:")
+                    if 'description' in details:
+                        print(f"   Description: {details['description']} ({details['occurrences']} occurrences)")
+                    if 'context' in details:
+                        print(f"   Context: {details['context']}")
+                    if 'relevance' in details:
+                        print(f"   Relevance: {details['relevance']} to {client_name}")
+            else:
+                print("\nNo evidence types identified.")
+            
+            # CaseSummarizer summarization
+            case_summarizer = CaseSummarizer()
+            
+            # Timing for summarization
+            start_time = time.perf_counter()  # Start timing with perf_counter()
+            case_summary = case_summarizer.summarize(pdf_text)
+            case_summary_time = time.perf_counter() - start_time  # Time taken for CaseSummarizer summary
+            print("\nGenerated CaseSummarizer Summary:")
+            print(case_summary)
+            
+            # Evaluate CaseSummarizer summarization
+            start_time = time.perf_counter()  # Start timing with perf_counter()
+            f1_case, recall_case = case_summarizer.evaluate(pdf_text, case_summary)
+            case_evaluation_time = time.perf_counter() - start_time  # Time taken for CaseSummarizer evaluation
+            print(f"\nF1-score (CaseSummarizer vs Baseline): {f1_case:.2f}")
+            print(f"Recall (CaseSummarizer vs Baseline): {recall_case:.2f}")
+            
+            # Print timing information
+            print("\nTiming Information:")
+            print(f"CaseSummarizer Summary Generation Time: {case_summary_time:.2f} seconds")
+            print(f"CaseSummarizer Summary Evaluation Time: {case_evaluation_time:.2f} seconds")
+    
+    # Display file uploader widget again
+    display(uploader)
+
+# Create file uploader widget
+uploader = widgets.FileUpload(accept='.pdf', multiple=True)
+uploader.observe(on_file_upload, names='value')
+
+# Display file uploader widget
+display(uploader)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+####graphical model:
+import time
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+from PyPDF2 import PdfReader
+from transformers import BartForConditionalGeneration, BartTokenizer
+import torch
+import networkx as nx
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from nltk.tokenize import sent_tokenize
+from sklearn.metrics import precision_recall_fscore_support
+
+# Initialize BART model and tokenizer
+class NeuralAbs:
+    def __init__(self):
+        self.model_name = 'facebook/bart-large-cnn'
+        self.model = BartForConditionalGeneration.from_pretrained(self.model_name)
+        self.tokenizer = BartTokenizer.from_pretrained(self.model_name)
+
+    def summarize(self, text, max_length=150, min_length=40, do_sample=False):
+        # Tokenize the input text
+        inputs = self.tokenizer(text, return_tensors='pt', truncation=True, padding='longest', max_length=1024)
+        
+        # Generate summary
+        summary_ids = self.model.generate(
+            inputs['input_ids'], 
+            max_length=max_length, 
+            min_length=min_length, 
+            do_sample=do_sample
+        )
+        
+        # Decode the generated summary
+        summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        return summary
+
+# Dummy implementation of evaluation and evidence extraction
+def evaluate_summarization_methods(text, summary):
+    # Replace with actual evaluation logic using GraphicalModel or other methods
+    # Assuming GraphicalModel has methods for evaluation
+    cosine_sim = 0.9  # Replace with actual values
+    f1_score = 0.8    # Replace with actual values
+    recall = 0.85     # Replace with actual values
+    return cosine_sim, None, f1_score, recall
+
+def extract_evidence(text, client_name):
+    # Dummy implementation for evidence extraction
+    return {'evidence_type_1': {'description': 'example description', 'occurrences': 1}}
+
+class GraphicalModel:
+    def __init__(self):
+        self.vectorizer = TfidfVectorizer(stop_words='english')
+
+    def build_similarity_matrix(self, sentences):
+        tfidf_matrix = self.vectorizer.fit_transform(sentences)
+        similarity_matrix = cosine_similarity(tfidf_matrix)
+        return similarity_matrix
+
+    def rank_sentences(self, similarity_matrix):
+        nx_graph = nx.from_numpy_array(similarity_matrix)
+        scores = nx.pagerank(nx_graph)
+        return scores
+
+    def summarize(self, text, num_sentences=5):
+        sentences = sent_tokenize(text)
+        if len(sentences) <= num_sentences:
+            return text
+
+        similarity_matrix = self.build_similarity_matrix(sentences)
+        scores = self.rank_sentences(similarity_matrix)
+        ranked_sentences = sorted(((scores[i], s) for i, s in enumerate(sentences)), reverse=True)
+        selected_sentences = [sentence for _, sentence in ranked_sentences[:num_sentences]]
+        selected_sentences.sort(key=lambda s: sentences.index(s))
+        summary = ' '.join(selected_sentences)
+        return summary
+
+    def evaluate(self, text, summary):
+        original_sentences = sent_tokenize(text)
+        summary_sentences = sent_tokenize(summary)
+        tfidf_matrix = self.vectorizer.fit_transform(original_sentences + summary_sentences)
+        similarity_matrix = cosine_similarity(tfidf_matrix[:len(original_sentences)], tfidf_matrix[len(original_sentences):])
+        threshold = 0.1
+        y_true = [1] * len(original_sentences)
+        y_pred = [1 if max(row) > threshold else 0 for row in similarity_matrix]
+        precision, recall, f1_score, _ = precision_recall_fscore_support(y_true, y_pred, average='binary')
+        return None, None, f1_score, recall
+
+def on_file_upload(change):
+    for file_info in uploader.value.values():
+        file_name = file_info['metadata']['name']
+        file_content = file_info['content']
+        
+        with open(file_name, 'wb') as f:
+            f.write(file_content)
+        
+        pdf_reader = PdfReader(file_name)
+        pdf_text = ""
+        for page in pdf_reader.pages:
+            pdf_text += page.extract_text()
+        
+        if pdf_text:
+            print("\nExtracted Text from PDF:")
+            print(pdf_text[:500] + "...")
+
+            client_name = "client"
+            evidence = extract_evidence(pdf_text, client_name)
+            
+            if evidence:
+                print("\nEvidence Types:")
+                for category, details in evidence.items():
+                    print(f"{category.capitalize()}:")
+                    if 'description' in details:
+                        print(f"   Description: {details['description']} ({details['occurrences']} occurrences)")
+                    if 'context' in details:
+                        print(f"   Context: {details['context']}")
+                    if 'relevance' in details:
+                        print(f"   Relevance: {details['relevance']} to {client_name}")
+            else:
+                print("\nNo evidence types identified.")
+            
+            start_time = time.time()
+            graphical_model = GraphicalModel()
+            graphical_summary = graphical_model.summarize(pdf_text)
+            graphical_summary_time = time.time() - start_time
+            print("\nGenerated GraphicalModel Summary:")
+            print(graphical_summary)
+            
+            start_time = time.time()
+            _, _, f1_graphical, recall_graphical = graphical_model.evaluate(pdf_text, graphical_summary)
+            graphical_evaluation_time = time.time() - start_time
+            print(f"\nF1-score (GraphicalModel vs Baseline): {f1_graphical:.2f}")
+            print(f"Recall (GraphicalModel vs Baseline): {recall_graphical:.2f}")
+
+            print("\nTiming Information:")
+            print(f"Graphical Model Summary Generation Time: {graphical_summary_time:.2f} seconds")
+            print(f"Graphical Model Summary Evaluation Time: {graphical_evaluation_time:.2f} seconds")
+    
+    display(uploader)
+
+# Create file uploader widget
+uploader = widgets.FileUpload(accept='.pdf', multiple=True)
+uploader.observe(on_file_upload, names='value')
+
+# Display file uploader widget
+display(uploader)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#####text rank:
+import nltk
+from nltk.tokenize import sent_tokenize
+from nltk.corpus import stopwords
+from string import punctuation
+from sklearn.metrics import precision_recall_fscore_support
+import heapq
+from PyPDF2 import PdfReader
+import re
+import io
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Download NLTK resources (if not already downloaded)
+nltk.download('punkt')
+nltk.download('stopwords')
+
+# Initialize NLTK stopwords
+stop_words = set(stopwords.words('english'))
+
+def preprocess_text(text):
+    # Tokenize text into sentences
+    sentences = sent_tokenize(text)
+    
+    # Tokenize each sentence into words, remove stopwords and punctuation
+    processed_sentences = []
+    for sentence in sentences:
+        words = [word.lower() for word in nltk.word_tokenize(sentence) if word.lower() not in stop_words and word.lower() not in punctuation]
+        processed_sentences.append(words)
+    
+    return processed_sentences
+
+def enhanced_tfidf_text_rank(text, n=5):
+    # Tokenize text into sentences
+    sentences = sent_tokenize(text)
+    
+    # Initialize TF-IDF vectorizer
+    tfidf_vectorizer = TfidfVectorizer(stop_words='english')
+    
+    # Fit TF-IDF vectorizer and transform text
+    tfidf_matrix = tfidf_vectorizer.fit_transform(sentences)
+    
+    # Calculate sentence scores based on TF-IDF values
+    sentence_scores = {}
+    for i, sentence in enumerate(sentences):
+        sentence_scores[sentence] = sum(tfidf_matrix[i].toarray()[0])
+    
+    # Get top 'n' sentences with the highest scores
+    top_sentences = heapq.nlargest(len(sentences) // 2, sentence_scores, key=sentence_scores.get)  # Adjusting for more sentences
+    top_sentences.sort(key=lambda x: sentences.index(x))
+    
+    # Join the top sentences to form the summary
+    summary = ' '.join(top_sentences)
+    
+    return summary
+
+def baseline_extractive_summarization(text):
+    # Simple approach: select the first 'n' sentences
+    sentences = sent_tokenize(text)
+    return ' '.join(sentences[:len(sentences) // 2])  # Adjusting for more sentences
+
+def extract_text_from_pdf(file_content):
+    """
+    Extract text from a PDF file content.
+    
+    Parameters:
+        file_content (bytes): The content of the PDF file.
+    
+    Returns:
+        str: The extracted text from the PDF.
+    """
+    try:
+        # Perform text extraction using PyPDF2
+        pdf_text = ""
+        pdf_reader = PdfReader(io.BytesIO(file_content))
+        for page in pdf_reader.pages:
+            pdf_text += page.extract_text()
+        return pdf_text
+    except Exception as e:
+        print("An error occurred while extracting text from the PDF file:", e)
+        return None
+
+def CaseSummarizer(document):
+    """
+    Your specific summarization method for legal documents.
+    Replace this with your actual implementation.
+    """
+    # Example: Using TF-IDF based summarization
+    return enhanced_tfidf_text_rank(document)
+
+def calculate_cosine_similarity(text1, text2):
+    # Tokenize and preprocess text
+    text1 = ' '.join([' '.join(sent) for sent in preprocess_text(text1)])
+    text2 = ' '.join([' '.join(sent) for sent in preprocess_text(text2)])
+    
+    # Initialize TF-IDF vectorizer
+    vectorizer = TfidfVectorizer(stop_words='english')
+    
+    # Fit and transform the text
+    tfidf_matrix = vectorizer.fit_transform([text1, text2])
+    
+    # Calculate cosine similarity
+    similarity = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
+    
+    return similarity
+
+def evaluate_summarization_methods(pdf_text, summary_text):
+    # Calculate cosine similarity between uploaded file content and generated summary
+    cosine_sim = calculate_cosine_similarity(pdf_text, summary_text)
+    
+    # Generate baseline summary
+    baseline_summary = baseline_extractive_summarization(pdf_text)
+    
+    # Calculate cosine similarity with baseline summary
+    cosine_sim_baseline = calculate_cosine_similarity(pdf_text, baseline_summary)
+    
+    # Calculate F1-score and recall for cosine similarity with baseline summary
+    y_true = [1]  # Assuming relevance is binary, here it's just a placeholder
+    y_pred = [1 if cosine_sim >= cosine_sim_baseline else 0]
+    f1, recall, _, _ = precision_recall_fscore_support(y_true, y_pred, average='binary')
+    
+    return cosine_sim, cosine_sim_baseline, f1, recall
+
+def on_file_upload(change):
+    """
+    Callback function to handle file upload.
+    """
+    # Clear previous output
+    clear_output()
+    
+    # Get uploaded files
+    uploaded_files = uploader.value
+    
+    # Process each uploaded file
+    for filename, file_info in uploaded_files.items():
+        # Get uploaded file content
+        uploaded_file_content = file_info['content']
+        
+        # Extract text from the PDF file content
+        pdf_text = extract_text_from_pdf(uploaded_file_content)
+        if pdf_text is not None:
+            # Print filename
+            print(f"File: {filename}")
+            
+            # Print summary using CaseSummarizer method (replace with your method)
+            generated_summary = CaseSummarizer(pdf_text)
+            print("Generated Summary:")
+            print(generated_summary)
+            
+            # Evaluate summarization methods
+            cosine_sim, cosine_sim_baseline, f1, recall = evaluate_summarization_methods(pdf_text, generated_summary)
+            print(f"\nCosine Similarity (Generated Summary): {cosine_sim:.2f}")
+            print(f"Cosine Similarity (Baseline): {cosine_sim_baseline:.2f}")
+            print(f"F1-score (Generated vs Baseline): {f1:.2f}")
+            print(f"Recall (Generated vs Baseline): {recall:.2f}")
+            
+    # Display file uploader widget again
+    display(uploader)
+
+# Create file uploader widget
+uploader = widgets.FileUpload()
+uploader.observe(on_file_upload, names='value')
+
+# Display file uploader widget
+display(uploader)

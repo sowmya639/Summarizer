@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            font-style: italic;
+            color: #ffffff;
+            margin-top: 50px;
+            font-size: 36px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+            position: relative;
+        }
+        .upload-form {
+            margin-top: 30px;
+        }
+        .upload-btn, .upload-btn-label {
+            background-color: #ffffff;
+            color: #007bff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 18px;
+        }
+        .upload-btn:hover, .upload-btn-label:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .file-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            z-index: 2;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .menu-item {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #007bff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .menu-item:hover {
+            background-color: #f0f0f0;
+            color: #007bff;
+        }
+        .menu-divider {
+            border-top: 1px solid #dddddd;
+            margin: 5px 0;
+        }
+        .flash-messages {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        .flash-message {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dropdown">
+            <button class="upload-btn-label">Menu &#9660;</button>
+            <div class="dropdown-content">
+                <a href="/logout" class="menu-item">Logout</a>
+                <a href="/" class="menu-item">Home</a>
+                <div class="menu-divider"></div>
+                <a href="/register" class="menu-item">Sign In</a>
+                <a href="/display_data" class="menu-item">Stored Data</a>
+            </div>
+        </div>
+        <h1>Text Summarization</h1>
+        <form class="upload-form" action="/summarize" method="post" enctype="multipart/form-data">
+            <label class="upload-btn-label" for="file">
+                <span class="file-icon">&#128206;</span> Upload File
+            </label>
+            <input type="file" id="file" name="file" multiple>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

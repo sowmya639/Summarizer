@@ -1,0 +1,16 @@
+TY  - JOUR
+T1  - Evaluation of Automatic Legal Text Summarization Techniques for Greek Case Law
+A1  - Koniaris, Marios
+A1  - Galanis, Dimitris
+A1  - Giannini, Eugenia
+A1  - Tsanakas, Panayiotis
+Y1  - 2023/04//
+JF  - Information
+VL  - 14
+IS  - 4
+SP  - 250
+EP  - 250
+DO  - 10.3390/info14040250
+UR  - https://www.mdpi.com/2078-2489/14/4/250
+N2  - The increasing amount of legal information available online is overwhelming for both citizens and legal professionals, making it difficult and time-consuming to find relevant information and keep up with the latest legal developments. Automatic text summarization techniques can be highly beneficial as they save time, reduce costs, and lessen the cognitive load of legal professionals. However, applying these techniques to legal documents poses several challenges due to the complexity of legal documents and the lack of needed resources, especially in linguistically under-resourced languages, such as the Greek language. In this paper, we address automatic summarization of Greek legal documents. A major challenge in this area is the lack of suitable datasets in the Greek language. In response, we developed a new metadata-rich dataset consisting of selected judgments from the Supreme Civil and Criminal Court of Greece, alongside their reference summaries and category tags, tailored for the purpose of automated legal document summarization. We also adopted several state-of-the-art methods for abstractive and extractive summarization and conducted a comprehensive evaluation of the methods using both human and automatic metrics. Our results: (i) revealed that, while extractive methods exhibit average performance, abstractive methods generate moderately fluent and coherent text, but they tend to receive low scores in relevance and consistency metrics; (ii) indicated the need for metrics that capture better a legal document summary’s coherence, relevance, and consistency; (iii) demonstrated that fine-tuning BERT models on a specific upstream task can significantly improve the model’s performance.
+ER  - 
